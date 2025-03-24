@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_name3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <!-- App Name -->
+
+    <!-- Description -->
+
+    <!-- Label "Team Members:" -->
+
+    <!-- LinearLayout com nomes -->
+
+    <TextView
+        android:id="@+id/txtAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Guess the Flag"
+        android:textAlignment="gravity"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.671"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:text="A fun quiz game where you guess the country based on its flag!"
+        android:textAlignment="gravity"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAppName" />
+
+    <!-- Data -->
+
+    <TextView
+        android:id="@+id/txtTeamLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Team Members:"
+        android:textAlignment="gravity"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDescription" />
+
+    <LinearLayout
+        android:id="@+id/layoutParticipants"
+        android:layout_width="354dp"
+        android:layout_height="188dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="52dp"
+        android:gravity="center|center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:textAlignment="gravity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTeamLabel">
+
+        <TextView
+            android:id="@+id/tv_name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:padding="10dp"
+            android:text="@string/mariana"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_name2"
+            android:layout_width="303dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:padding="10dp"
+            android:text="@string/patricia"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:padding="10dp"
+            android:text="@string/thiago"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:padding="10dp"
+            android:text="@string/thiego"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:gravity="center_vertical"
+        android:text="Date: March 2025"
+        android:textAlignment="gravity"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutParticipants" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
