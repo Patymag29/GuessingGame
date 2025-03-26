@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="offWhite">#FDFBEE</color>
+    <color name="cian">#57B4BA</color>
+    <color name="darkBlue">#015551</color>
+    <color name="orange">#FE4F2D</color>
+
+
 </resources>

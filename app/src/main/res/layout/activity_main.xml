@@ -6,119 +6,147 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/offWhite"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_option1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="324dp"
-        android:onClick="pickAnswer"
-        android:text="Option 1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_option2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="pickAnswer"
-        android:text="Option 2"
-        app:layout_constraintStart_toStartOf="@+id/btn_option1"
-        app:layout_constraintTop_toBottomOf="@+id/btn_option1" />
-
-    <Button
-        android:id="@+id/btn_option3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="pickAnswer"
-        android:text="Option 3"
-        app:layout_constraintStart_toStartOf="@+id/btn_option2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_option2" />
-
-    <Button
-        android:id="@+id/btn_option4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="pickAnswer"
-        android:text="Option 4"
-        app:layout_constraintStart_toStartOf="@+id/btn_option3"
-        app:layout_constraintTop_toBottomOf="@+id/btn_option3" />
-
-    <Button
-        android:id="@+id/btn_nextQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="#921A1A"
-        android:onClick="nextQuestion"
-        android:text="Next Question"
+        android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_score1"
+        app:layout_constraintVertical_bias="0.102">
+
+        <Button
+            android:id="@+id/btn_option1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_options"
+            android:onClick="pickAnswer"
+            android:text="@string/option_1"
+            android:textColor="@color/darkBlue" />
+
+
+        <Button
+            android:id="@+id/btn_option2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_options"
+            android:onClick="pickAnswer"
+            android:text="@string/option_2"
+            android:textColor="@color/darkBlue" />
+
+        <Button
+            android:id="@+id/btn_option3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_options"
+            android:onClick="pickAnswer"
+            android:text="@string/option_3"
+            android:textColor="@color/darkBlue" />
+
+        <Button
+            android:id="@+id/btn_option4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_options"
+            android:onClick="pickAnswer"
+            android:text="@string/option_4"
+            android:textColor="@color/darkBlue" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_Previous"
-        android:layout_width="wrap_content"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#091D89"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/btn_back_question"
+        android:drawableStart="@drawable/baseline_arrow_back_24"
         android:onClick="previousQuestion"
-        android:text="Previous Question"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="5dp"
+        android:text="@string/btn_previous_question"
+        android:textColor="@color/offWhite"
+        app:layout_constraintEnd_toStartOf="@+id/btn_nextQuestion"
+        app:layout_constraintHorizontal_bias="0.758"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_nextQuestion"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <Button
+        android:id="@+id/btn_nextQuestion"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/btn_forward_question"
+        android:drawableEnd="@drawable/baseline_arrow_forward_24"
+        android:onClick="nextQuestion"
+        android:padding="5dp"
+        android:text="@string/btn_next_question"
+        android:textColor="@color/offWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <TextView
         android:id="@+id/tv_score2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="164dp"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/img_flag" />
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
-        android:backgroundTint="#854D4D"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/btn_restart_game"
+        android:contentDescription="@string/reset"
+        android:drawableStart="@drawable/baseline_restart_alt_24"
+        android:gravity="center_horizontal"
         android:onClick="resetGame"
-        android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.229"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_Settings"
+        app:layout_constraintHorizontal_bias="0.866"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Previous" />
 
     <Button
         android:id="@+id/btn_Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#009688"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="144dp"
+        android:background="@drawable/btn_settings"
+        android:contentDescription="@string/settings"
+        android:drawableStart="@drawable/baseline_settings_24"
         android:onClick="openSettingsActivity"
-        android:text="@string/settings"
-        app:layout_constraintBottom_toTopOf="@+id/btn_nextQuestion"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_nextQuestion" />
 
     <ImageView
         android:id="@+id/img_flag"
-        android:layout_width="199dp"
-        android:layout_height="125dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:contentDescription="@string/img_desc"
+        app:layout_constraintBottom_toTopOf="@+id/tv_score1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.204"
+        app:layout_constraintVertical_bias="0.811"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -128,22 +156,24 @@
         android:layout_marginTop="52dp"
         android:textSize="25sp"
         android:textStyle="bold"
+        android:textColor="@color/darkBlue"
         app:layout_constraintBottom_toTopOf="@+id/img_flag"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
         android:id="@+id/tv_score1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="268dp"
         android:text="@string/score"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_score2"
-        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

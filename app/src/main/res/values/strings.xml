@@ -19,5 +19,16 @@
     <string name="mariana">Mariana Rangel</string>
     <string name="thiego">Thiego Rechi</string>
     <string name="patricia">Patricia Magalhaes - 448624</string>
+    <string name="reset">Reset</string>
+    <string name="btn_previous_question">Question</string>
+    <string name="btn_next_question">Question</string>
+    <string name="option_4">Option 4</string>
+    <string name="option_3">Option 3</string>
+    <string name="option_2">Option 2</string>
+    <string name="option_1">Option 1</string>
+    <string name="app_description">A fun quiz game where you guess the country based on its flag!</string>
+    <string name="tvTeamMembers">Team Members:</string>
+    <string name="tvDate">Date: March 2025</string>
+    <string name="img_desc">flag image</string>
 
 </resources>
