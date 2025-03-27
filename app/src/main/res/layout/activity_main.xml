@@ -10,19 +10,93 @@
     android:background="@color/offWhite"
     tools:context=".MainActivity">
 
+<!--question placeholder and image placeholder-->
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <ImageView
+        android:id="@+id/img_flag"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="150dp"
+        android:contentDescription="@string/img_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_score1"
-        app:layout_constraintVertical_bias="0.102">
+        app:layout_constraintTop_toBottomOf="@+id/question_Title"
+        tools:ignore="NotSibling"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/question_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:textColor="@color/darkBlue"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    number of questions and score-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_flag">
+
+        <TextView
+            android:id="@+id/tv_question_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/question_progress"
+            android:textColor="@color/darkBlue"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toStartOf="@+id/tv_score1"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tv_score1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/score"
+            android:textColor="@color/darkBlue"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="185dp"
+            tools:layout_editor_absoluteY="261dp" />
+
+        <TextView
+            android:id="@+id/tv_score2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/txt_score_placeholder"
+            android:textColor="@color/darkBlue"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="267dp"
+            tools:layout_editor_absoluteY="260dp" />
+    </LinearLayout>
+
+<!--    answer options-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="282dp"
+        android:layout_height="249dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
             android:id="@+id/btn_option1"
@@ -65,12 +139,13 @@
             android:textColor="@color/darkBlue" />
     </LinearLayout>
 
+<!--    previous and forward questions buttons-->
+
     <Button
         android:id="@+id/btn_Previous"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:background="@drawable/btn_back_question"
         android:drawableStart="@drawable/baseline_arrow_back_24"
         android:onClick="previousQuestion"
@@ -87,7 +162,6 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:layout_marginEnd="64dp"
         android:background="@drawable/btn_forward_question"
         android:drawableEnd="@drawable/baseline_arrow_forward_24"
@@ -98,15 +172,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-    <TextView
-        android:id="@+id/tv_score2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="164dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_flag" />
+<!--restart and settings buttons -->
 
     <Button
         android:id="@+id/btn_reset"
@@ -135,45 +201,5 @@
         android:onClick="openSettingsActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_nextQuestion" />
-
-    <ImageView
-        android:id="@+id/img_flag"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:contentDescription="@string/img_desc"
-        app:layout_constraintBottom_toTopOf="@+id/tv_score1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.811"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/question_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:textColor="@color/darkBlue"
-        app:layout_constraintBottom_toTopOf="@+id/img_flag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002" />
-
-    <TextView
-        android:id="@+id/tv_score1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="268dp"
-        android:text="@string/score"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_score2"
-        app:layout_constraintHorizontal_bias="0.852"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
