@@ -1,6 +1,7 @@
 package com.example.guessinggame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -17,16 +18,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
 
-    // create array to store questions
-    Questions[] questions = new Questions[20]; // array of Json data (must be assigned with value from settings)
+    private int numQuestions; // holds the amount of questions to be answered
+    Questions[] questions; // array of Json data (must be assigned with value from settings)
     int questionIndex = 0;
     Button op1, op2, op3, op4, settings;
-
-    TextView questionTitle, scoreCounter;
-
+    private int totalQuestions; //hold the total number of question
+    TextView questionTitle, scoreCounter, tvQuestionProgress; //sets the text on the text view dynamically
     ImageView imgFlag; // assignment 2
     int score = 0;
 
@@ -45,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
         settings = findViewById(R.id.btn_Settings); // assignment 2
         imgFlag  = findViewById(R.id.img_flag); // assignment 2
         scoreCounter    = findViewById(R.id.tv_score2);
+        tvQuestionProgress = findViewById(R.id.tv_question_progress);
+
+        // Load user preferences in onCreate()
+        // retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
+        SharedPreferences preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+
+        numQuestions = preferences.getInt("numQuestions", 20); // assign to the global variable
+
+        questions = new Questions[numQuestions]; //initialize the questions array
+
+        String selectedTheme = preferences.getString("theme", "Default"); // Default theme TODO
+
+        totalQuestions = numQuestions; //sets the number of questions based on the preferences
 
         // assignment 2
         loadQuestionsFromJSON();
@@ -79,10 +93,19 @@ public class MainActivity extends AppCompatActivity {
         updateScore();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) { //this method will save the instance properly
+        super.onSaveInstanceState(outState);
+        outState.putInt("SCORE", score);
+        outState.putInt("QUESTION", questionIndex);
+        outState.putParcelableArray("QUESTIONS", questions);
+    }
+
     // This method goes to the next Question and accessed by onclick button event
     public void nextQuestion(View view) { // questionIndex == 20 (must be assigned with value from settings)
-        if (questionIndex == 20) Toast.makeText(this, "It's The final question", Toast.LENGTH_SHORT).show();
-        else {
+        if (questionIndex >= numQuestions - 1) { //makes sure the questions are not going outside the array limit
+            Toast.makeText(this, "It's The final question", Toast.LENGTH_SHORT).show();
+        } else {
             questionIndex++;
             loadQuestion();
             if (questions[questionIndex].answered) {
@@ -93,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
     // This method goes back to the previous Question and accessed by onclick button event
     public void previousQuestion(View view){ // method used onclick button event "previous Button"
-        if (questionIndex == 0) Toast.makeText(this, "You're at the first question", Toast.LENGTH_SHORT).show(); // when user tries to click on button "Previous" and he is on the first question
-        else {
+        if (questionIndex == 0){
+            Toast.makeText(this, "You're at the first question", Toast.LENGTH_SHORT).show(); // when user tries to click on button "Previous" and he is on the first question
+        } else {
             questionIndex--;
             loadQuestion();
             // Verify if the question has already answered
@@ -113,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
             is.read(buffer);
             is.close();
 
-            String json = new String(buffer, "UTF-8");
+            String json = new String(buffer, StandardCharsets.UTF_8);
             JSONArray jsonArray = new JSONArray(json);
             questions = new Questions[jsonArray.length()];
 
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < numQuestions && i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 String imageName = obj.getString("image");
                 int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
@@ -135,11 +159,13 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error on load questions: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            questions = new Questions[0]; // starts a questions array to the first index
         }
     }
 
     // This method loads questions and stores on buttons
     private void loadQuestion() {
+        if (questions != null && questions[questionIndex] != null) { //checks if there is a question to be loaded
         Questions current = questions[questionIndex]; // Assignment 2 - Get the current question from the questions array using the current index
         questionTitle.setText(current.questionAsk);
         imgFlag.setImageResource(current.imageResId); // Assignment 2 - Set the flag image according to the current question
@@ -147,11 +173,19 @@ public class MainActivity extends AppCompatActivity {
         op2.setText(questions[questionIndex].option2);
         op3.setText(questions[questionIndex].option3);
         op4.setText(questions[questionIndex].option4);
+
+            updateQuestionProgress(); // update question progress here!
+        } else {
+            Toast.makeText(this, "Error: No question loaded!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void updateQuestionProgress() { //helper method to keeps track of the number of questions
+        String progress = getString(R.string.question_progress, questionIndex + 1, totalQuestions); //this is used to not concatenate directly on the code by using string placeholders
+        tvQuestionProgress.setText(progress);
     }
 
-
     private void updateScore(){
-        scoreCounter.setText(Integer.toString(score));
+        scoreCounter.setText(String.valueOf(score));
     }
     public void pickAnswer(View view) { // // method used onclick button event - linked to answer's buttons
         Button button = (Button) view;
@@ -162,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if (button.getText().toString().equals(questions[questionIndex].correctAnswer)) { // correct Answer ? To be used with Json strings
+        if (questions[questionIndex] != null && button.getText().toString().equals(questions[questionIndex].correctAnswer)) { // correct Answer ? To be used with Json strings
             if (!questions[questionIndex].answered) { // if questions is answered
                 score++;
             }
@@ -181,13 +215,21 @@ public class MainActivity extends AppCompatActivity {
     public void resetGame(View view) {
         score = 0;
         questionIndex = 0;
+        // retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
+        SharedPreferences preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        numQuestions = preferences.getInt("numQuestions", 20); //resets the number of questions
 
         // Reset the state of questions
-        for (Questions question : questions) {
-            question.answered = false;
+        if (questions != null) {
+            for (int i = 0; i < numQuestions; i++) {
+                if (questions[i] != null) {
+                    questions[i].answered = false;
+                }
+            }
         }
         loadQuestion();
         updateScore();
+        updateQuestionProgress();
     }
 
     //assignment 2 - This method calls the activity_settings
