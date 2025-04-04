@@ -24,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
     Questions[] questions = new Questions[20];
     int questionIndex = 0;
+    int score = 0;
+
     Button op1, op2, op3, op4, settings;
     TextView questionTitle, scoreCounter;
     ImageView imgFlag;
-    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +46,16 @@ public class MainActivity extends AppCompatActivity {
         scoreCounter = findViewById(R.id.tv_score2);
 
         loadQuestionsFromJSON();
-        Collections.shuffle(Arrays.asList(questions)); // 🔀 Randomiza as perguntas
+        Collections.shuffle(Arrays.asList(questions));
         loadQuestion();
     }
 
-    @Override
     protected void onStart() {
         super.onStart();
         loadQuestion();
         updateScore();
     }
 
-    @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         score = savedInstanceState.getInt("SCORE");
@@ -73,14 +72,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextQuestion(View view) {
-        if (questionIndex == 19) {
+        if (questionIndex >= questions.length - 1) {
             Toast.makeText(this, "It's the final question", Toast.LENGTH_SHORT).show();
         } else {
             questionIndex++;
             loadQuestion();
-            if (questions[questionIndex].answered) {
-                Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -90,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             questionIndex--;
             loadQuestion();
-            if (questions[questionIndex].answered) {
-                Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -125,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 );
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error on load questions: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error loading questions: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -138,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         op3.setText(current.option3);
         op4.setText(current.option4);
 
-        // Resetar a cor dos botões
+        // Reset button colors
         op1.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         op2.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         op3.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
@@ -146,14 +139,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateScore() {
-        scoreCounter.setText(Integer.toString(score));
+        scoreCounter.setText(String.valueOf(score));
     }
 
     public void pickAnswer(View view) {
         Button button = (Button) view;
 
         if (questions[questionIndex].answered) {
-            Toast.makeText(this, "Question already answered !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -166,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
         } else {
             button.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-            Toast.makeText(this, "Incorrect, try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
         }
 
         questions[questionIndex].answered = true;
@@ -181,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             question.answered = false;
         }
 
-        Collections.shuffle(Arrays.asList(questions)); // embaralhar novamente
+        Collections.shuffle(Arrays.asList(questions));
         loadQuestion();
         updateScore();
     }
