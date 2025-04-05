@@ -176,30 +176,37 @@
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/btn_restart_game"
         android:contentDescription="@string/reset"
         android:drawableStart="@drawable/baseline_restart_alt_24"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
         android:onClick="resetGame"
-        app:layout_constraintEnd_toStartOf="@+id/btn_Settings"
-        app:layout_constraintHorizontal_bias="0.866"
+        android:padding="5dp"
+        android:text="@string/reset"
+        android:textColor="@color/orange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_Previous" />
 
     <Button
         android:id="@+id/btn_Settings"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="144dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
         android:background="@drawable/btn_settings"
         android:contentDescription="@string/settings"
         android:drawableStart="@drawable/baseline_settings_24"
         android:onClick="openSettingsActivity"
+        android:padding="5dp"
+        android:text="@string/settings"
+        android:textColor="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btn_reset"
         app:layout_constraintTop_toBottomOf="@+id/btn_nextQuestion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

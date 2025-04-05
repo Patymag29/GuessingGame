@@ -33,5 +33,6 @@
     <string name="tv_number_of_questions">Number of Questions:</string>
     <string name="txt_score_placeholder">0</string>
     <string name="question_progress">%1$d/%2$d</string>
+    <string name="btn_save">save</string>
 
 </resources>

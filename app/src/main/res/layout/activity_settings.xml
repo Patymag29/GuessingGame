@@ -76,44 +76,53 @@
         app:layout_constraintTop_toBottomOf="@id/txtChooseTheme" />
 
 <!--    the buttons for reset, clear and save are set to be only icons -->
-    <Button
-        android:id="@+id/btn_reset_game"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/btn_restart_game"
-        android:contentDescription="@string/reset"
-        android:drawableStart="@drawable/baseline_restart_alt_24"
-        android:gravity="center_horizontal"
-        android:onClick="resetGame"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_themes" />
-
-    <Button
-        android:id="@+id/btn_submit"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/btn_save_settings"
-        android:contentDescription="@string/submit"
-        android:drawableEnd="@drawable/baseline_save_24"
+    <LinearLayout
+        android:layout_width="149dp"
+        android:layout_height="197dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btn_clearSettings"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_themes" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_themes"
+        app:layout_constraintVertical_bias="0.21">
 
-    <Button
-        android:id="@+id/btn_clearSettings"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/btn_clear_settings"
-        android:contentDescription="@string/clear_settings"
-        android:drawableStart="@drawable/baseline_cancel_24"
-        app:layout_constraintStart_toEndOf="@+id/btn_reset_game"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_themes" />
+        <Button
+            android:id="@+id/btn_reset_game"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_restart_game"
+            android:contentDescription="@string/reset"
+            android:drawableStart="@drawable/baseline_restart_alt_24"
+            android:gravity="center_horizontal|center_vertical"
+            android:onClick="resetGame"
+            android:padding="5dp"
+            android:text="@string/reset"
+            android:textColor="@color/orange" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_save_settings"
+            android:contentDescription="@string/submit"
+            android:drawableStart="@drawable/baseline_save_24"
+            android:padding="5dp"
+            android:text="@string/btn_save"
+            android:textColor="@color/orange" />
+
+        <Button
+            android:id="@+id/btn_clearSettings"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_clear_settings"
+            android:contentDescription="@string/clear_settings"
+            android:drawableStart="@drawable/baseline_cancel_24"
+            android:padding="5dp"
+            android:text="@string/clear_settings"
+            android:textColor="@color/orange" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
