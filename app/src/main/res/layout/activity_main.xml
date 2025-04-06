@@ -41,20 +41,20 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_width="217dp"
+        android:layout_height="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.587"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_flag">
 
         <TextView
             android:id="@+id/tv_question_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="@string/question_progress"
             style="@style/textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/question_progress"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
             app:layout_constraintEnd_toStartOf="@+id/tv_score1"
@@ -65,36 +65,34 @@
 
         <TextView
             android:id="@+id/tv_score1"
+            style="@style/textColor"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:text="@string/score"
-            style="@style/textColor"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="185dp"
             tools:layout_editor_absoluteY="261dp" />
 
         <TextView
             android:id="@+id/tv_score2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/textColor"
+            android:layout_width="52dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:text="@string/txt_score_placeholder"
-            style="@style/textColor"
-            android:textSize="18sp"
-            tools:layout_editor_absoluteX="267dp"
-            tools:layout_editor_absoluteY="260dp" />
+            android:textSize="18sp" />
     </LinearLayout>
-
-<!--    answer options-->
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="282dp"
         android:layout_height="249dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
@@ -138,8 +136,6 @@
             android:text="@string/option_4"
             android:textColor="@color/darkBlue" />
     </LinearLayout>
-
-<!--    previous and forward questions buttons-->
 
     <Button
         android:id="@+id/btn_Previous"
