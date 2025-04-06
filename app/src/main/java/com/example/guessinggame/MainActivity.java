@@ -1,5 +1,6 @@
 package com.example.guessinggame;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //this method will set the theme chosen by the user
     private void setTheme(String theme) {
         if (theme.equals("Dark")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //assignment 2 - This method loads all questions only once and just keeps information of flags on memory
+
     private void loadQuestionsFromJSON() {
         try {
             InputStream is = getAssets().open("questions.json");
@@ -153,15 +157,17 @@ public class MainActivity extends AppCompatActivity {
 
             String json = new String(buffer, StandardCharsets.UTF_8);
             JSONArray jsonArray = new JSONArray(json);
-            questions = new Questions[jsonArray.length()];
 
-            for (int i = 0; i < numQuestions && i < jsonArray.length(); i++) {
+            // Load all questions first
+            Questions[] allQuestions = new Questions[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 String imageName = obj.getString("image");
                 int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
 
                 JSONArray options = obj.getJSONArray("options");
-                questions[i] = new Questions(
+                allQuestions[i] = new Questions(
                         imageResId,
                         obj.getString("question"),
                         options.getString(0),
@@ -171,9 +177,20 @@ public class MainActivity extends AppCompatActivity {
                         obj.getString("correctAnswer")
                 );
             }
+
+            // mix the set of questions
+            Collections.shuffle(Arrays.asList(allQuestions));
+
+            //makes sure the numQuestions doesn't exceed available questions
+            numQuestions = Math.min(numQuestions, allQuestions.length);
+            totalQuestions = numQuestions;
+
+            // creates the questions array based on the prefered size
+            questions = Arrays.copyOfRange(allQuestions, 0, numQuestions);
+
         } catch (Exception e) {
-            Toast.makeText(this, "Error on load questions: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            questions = new Questions[0]; // starts a questions array to the first index
+            Toast.makeText(this, "Error loading questions: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            questions = new Questions[0]; // fallback empty array
         }
     }
 
@@ -192,6 +209,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Error: No question loaded!", Toast.LENGTH_SHORT).show();
         }
+
+        Button[] options = {op1, op2, op3, op4};
+
+        for (Button option : options) { //this loop will draw a green button or red depends on the correct or wrong answer
+            option.setEnabled(true);
+            option.setBackgroundResource(R.drawable.btn_options);
+            option.setTextColor(ContextCompat.getColor(this, R.color.darkBlue));
+        }
     }
     private void updateQuestionProgress() { //helper method to keeps track of the number of questions
         String progress = getString(R.string.question_progress, questionIndex + 1, totalQuestions); //this is used to not concatenate directly on the code by using string placeholders
@@ -201,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateScore(){
         scoreCounter.setText(String.valueOf(score));
     }
+    @SuppressLint("ResourceAsColor")
     public void pickAnswer(View view) { // // method used onclick button event - linked to answer's buttons
         Button button = (Button) view;
 
@@ -209,20 +235,32 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Question already answered !", Toast.LENGTH_SHORT).show();
             return;
         }
+    // this will ensure that only one button is selected even if is not correct
+        String selectedAnswer = button.getText().toString();
+        String correctAnswer = questions[questionIndex].correctAnswer;
 
-        if (questions[questionIndex] != null && button.getText().toString().equals(questions[questionIndex].correctAnswer)) { // correct Answer ? To be used with Json strings
-            if (!questions[questionIndex].answered) { // if questions is answered
-                score++;
-            }
-            questions[questionIndex].answered = true;
-            Toast.makeText(this, "Correct !", Toast.LENGTH_SHORT).show();
+        if (selectedAnswer.equals(correctAnswer)) {
+            score++;
+            button.setBackgroundResource(R.drawable.btn_correct);
+            button.setTextColor(ContextCompat.getColor(this, R.color.offWhite));
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+        } else {
+            button.setBackgroundResource(R.drawable.btn_incorrect);
+            button.setTextColor(ContextCompat.getColor(this, R.color.offWhite));
+            Toast.makeText(this, "Incorrect, try again!", Toast.LENGTH_SHORT).show();
+        }
 
-            loadQuestion();
-            updateScore();
-        }
-        else {
-            Toast.makeText(this, "Incorrect, try again !", Toast.LENGTH_SHORT).show();
-        }
+        questions[questionIndex].answered = true;
+        updateScore();
+        disableAnswerButtons(); // this will prevent multiple attempts
+    }
+
+    //this helper method will assure that any button stays active after pressed
+    private void disableAnswerButtons() {
+        op1.setEnabled(false);
+        op2.setEnabled(false);
+        op3.setEnabled(false);
+        op4.setEnabled(false);
     }
 
     // This method resets the Game and is called by 2 ways (activity_main and activity_settings)
