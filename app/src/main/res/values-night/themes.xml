@@ -1,7 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.GuessingGame" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.GuessingGame" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
     </style>
+
+    <style name="screenBackground"><item name="android:background">@color/darkBlue</item></style>
+    <style name="textColor"><item name="android:textColor">@color/offWhite</item></style>
+    <style name="spinnerColor">
+        <item name="android:textColor">@color/offWhite</item>
+        <item name="android:background">@color/offWhite</item>
+        <item name="android:backgroundTint">@color/darkBlue</item>
+    </style>
+
+    <style name="Theme.GuessingGame" parent="Base.Theme.GuessingGame" />
 </resources>

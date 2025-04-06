@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:background="@drawable/btn_start_game"
+        android:onClick="openAboutActivity"
         android:text="@string/about"
         android:textColor="@color/offWhite"
         app:layout_constraintEnd_toEndOf="parent"

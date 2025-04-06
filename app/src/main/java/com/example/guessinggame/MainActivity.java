@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,10 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Load theme preference before setContentView
+        SharedPreferences preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        String selectedTheme = preferences.getString("theme", "Light"); // Default to Light
+        setTheme(selectedTheme);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        //make references of components
         questionTitle = findViewById(R.id.question_Title);
         op1 = findViewById(R.id.btn_option1);
         op2 = findViewById(R.id.btn_option2);
@@ -51,42 +59,51 @@ public class MainActivity extends AppCompatActivity {
         scoreCounter    = findViewById(R.id.tv_score2);
         tvQuestionProgress = findViewById(R.id.tv_question_progress);
 
-        // Load user preferences in onCreate()
-        // retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
-        SharedPreferences preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-
         numQuestions = preferences.getInt("numQuestions", 20); // assign to the global variable
 
         questions = new Questions[numQuestions]; //initialize the questions array
 
-        String selectedTheme = preferences.getString("theme", "Default"); // Default theme TODO
-
         totalQuestions = numQuestions; //sets the number of questions based on the preferences
 
-
+        // assignment 2
         loadQuestionsFromJSON();
-        Collections.shuffle(Arrays.asList(questions));
+        // assignment 2
         loadQuestion();
+
     }
 
-    protected void onStart() {
+    private void setTheme(String theme) {
+        if (theme.equals("Dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    @Override
+    // this method is embedded from Android by default and now is overriding
+    protected void onStart(){ // on loading the screen for the first time
         super.onStart();
-        loadQuestion();
+        loadQuestion(); // method to load questions of game
         updateScore();
     }
 
+    @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        score = savedInstanceState.getInt("SCORE");
-        questionIndex = savedInstanceState.getInt("QUESTION");
+        score = savedInstanceState.getInt("SCORE"); // restore saved score (from onSaveInstanceState())
+        questionIndex = savedInstanceState.getInt("QUESTION"); // restore saved question (from onSaveInstanceState())
+
+        //PARCELABLE - This line retrieves an array of objects that were previously saved as Parcelable in onSaveInstanceState().
         Parcelable[] parcelableArray = savedInstanceState.getParcelableArray("QUESTIONS");
 
-        if (parcelableArray != null) {
-            for (int i = 0; i < parcelableArray.length; i++) {
+        // read this array and fill the array Questions[] destroyed when the screen was rotated
+        if (parcelableArray != null){
+            for (int i = 0; i < parcelableArray.length; i++){
                 questions[i] = (Questions) parcelableArray[i];
             }
         }
-        loadQuestion();
+        loadQuestion(); // method to load questions of game
         updateScore();
     }
 
@@ -105,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             questionIndex++;
             loadQuestion();
+            if (questions[questionIndex].answered) {
+                Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -115,9 +135,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             questionIndex--;
             loadQuestion();
+            // Verify if the question has already answered
+            if (questions[questionIndex].answered) {
+                Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    //assignment 2 - This method loads all questions only once and just keeps information of flags on memory
     private void loadQuestionsFromJSON() {
         try {
             InputStream is = getAssets().open("questions.json");
@@ -152,60 +177,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // This method loads questions and stores on buttons
     private void loadQuestion() {
-
-        Questions current = questions[questionIndex];
-        questionTitle.setText(current.questionAsk);
-        imgFlag.setImageResource(current.imageResId);
-        op1.setText(current.option1);
-        op2.setText(current.option2);
-        op3.setText(current.option3);
-        op4.setText(current.option4);
-
-        // Reset button colors
-        op1.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        op2.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        op3.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        op4.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-    }
-
-    private void updateScore() {
-
         if (questions != null && questions[questionIndex] != null) { //checks if there is a question to be loaded
-        Questions current = questions[questionIndex]; // Assignment 2 - Get the current question from the questions array using the current index
-        questionTitle.setText(current.questionAsk);
-        imgFlag.setImageResource(current.imageResId); // Assignment 2 - Set the flag image according to the current question
-        op1.setText(questions[questionIndex].option1);
-        op2.setText(questions[questionIndex].option2);
-        op3.setText(questions[questionIndex].option3);
-        op4.setText(questions[questionIndex].option4);
+            Questions current = questions[questionIndex]; // Assignment 2 - Get the current question from the questions array using the current index
+            questionTitle.setText(current.questionAsk);
+            imgFlag.setImageResource(current.imageResId); // Assignment 2 - Set the flag image according to the current question
+            op1.setText(questions[questionIndex].option1);
+            op2.setText(questions[questionIndex].option2);
+            op3.setText(questions[questionIndex].option3);
+            op4.setText(questions[questionIndex].option4);
 
             updateQuestionProgress(); // update question progress here!
         } else {
             Toast.makeText(this, "Error: No question loaded!", Toast.LENGTH_SHORT).show();
         }
     }
-  
     private void updateQuestionProgress() { //helper method to keeps track of the number of questions
         String progress = getString(R.string.question_progress, questionIndex + 1, totalQuestions); //this is used to not concatenate directly on the code by using string placeholders
         tvQuestionProgress.setText(progress);
     }
 
-//     private void updateScore(){
-//         scoreCounter.setText(String.valueOf(score));
-//     }
-
-    public void pickAnswer(View view) {
+    private void updateScore(){
+        scoreCounter.setText(String.valueOf(score));
+    }
+    public void pickAnswer(View view) { // // method used onclick button event - linked to answer's buttons
         Button button = (Button) view;
 
+        // Verify if the question has already answered and impedes the user answer again and then update score wrongly
         if (questions[questionIndex].answered) {
-            Toast.makeText(this, "Question already answered!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Question already answered !", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
-        String selectedAnswer = button.getText().toString();
-        String correctAnswer = questions[questionIndex].correctAnswer;
 
         if (questions[questionIndex] != null && button.getText().toString().equals(questions[questionIndex].correctAnswer)) { // correct Answer ? To be used with Json strings
             if (!questions[questionIndex].answered) { // if questions is answered
@@ -214,28 +217,21 @@ public class MainActivity extends AppCompatActivity {
             questions[questionIndex].answered = true;
             Toast.makeText(this, "Correct !", Toast.LENGTH_SHORT).show();
 
-        if (selectedAnswer.equals(correctAnswer)) {
-            score++;
-            button.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
-            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
-        } else {
-            button.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-            Toast.makeText(this, "Incorrect!", Toast.LENGTH_SHORT).show();
+            loadQuestion();
+            updateScore();
         }
-
-        questions[questionIndex].answered = true;
-        updateScore();
+        else {
+            Toast.makeText(this, "Incorrect, try again !", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    // This method resets the Game and is called by 2 ways (activity_main and activity_settings)
     public void resetGame(View view) {
         score = 0;
         questionIndex = 0;
         // retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
         SharedPreferences preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         numQuestions = preferences.getInt("numQuestions", 20); //resets the number of questions
-
-        for (Questions question : questions) {
-            question.answered = false;
 
         // Reset the state of questions
         if (questions != null) {
@@ -245,14 +241,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        Collections.shuffle(Arrays.asList(questions));
         loadQuestion();
         updateScore();
         updateQuestionProgress();
     }
 
+    //assignment 2 - This method calls the activity_settings
     public void openSettingsActivity(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
     }
-}
+
+    public void openAboutActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+
+} // end of MainActivity.java
